@@ -25,7 +25,7 @@ def recordAudio():
     try:
         # Uses the default API key
         # To use another API key: `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-        data = r.recognize_google(audio)
+        data = r.recognize_google(audio, key="AIzaSyDXksdLvMsZvWuAl02ueGeL3_PtEbyN41c")
         print("You said: " + data)
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
@@ -34,19 +34,33 @@ def recordAudio():
 
     return data
 
+def find_some_term(terminology,find_me):
+    for i in range(0,len(terminology)):
+        if(terminology[i] == find_me):
+            return True
+    return False
+
+def tell_the_time():
+    speak(ctime())
+
 #Think of this like Alexa skills, if the user says something, what should the answer be?
 def jarvis(data):
-    if "how are you" in data:
-        speak("I am fine")
+
+    terminology = data.split(" ") #transform the string to a list
+
+    # if the user says hello
+    if find_some_term(terminology,"hi") or find_some_term(terminology,"hello"):
+        speak("Hello")
 
     if "are you my robot" in data:
         speak("yes I am")
 
-    if "what time is it" in data:
-        speak(ctime())
+    # tell them the time
+    if find_some_term(terminology,"time"):
+        tell_the_time()
 
     if "what medicine do you have for me" in data:
-        speak("I have panadol, ibuprofen and xantax")
+        speak("I have panadol ibuprofen and xantax")
 
     if "where is" in data:
         data = data.split(" ")
