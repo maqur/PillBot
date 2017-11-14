@@ -48,7 +48,7 @@ Once you have all the dependencies installed navigate to the folder that contain
 
 Once you have this working, type the following in terminal:
 
-`$:python3 jarvis.py'
+`$:python3 jarvis.py`
 
 It should come up with a prompt that says "Hi PillBot User! How are you?"
 
