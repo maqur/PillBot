@@ -6,6 +6,8 @@ from time import ctime
 import time
 import os
 from gtts import gTTS
+from weather import Weather
+import math
 
 def speak(audioString):
     print(audioString)
@@ -43,6 +45,17 @@ def find_some_term(terminology,find_me):
 def tell_the_time():
     speak(ctime())
 
+def faranheit_to_celsius(faranheit):
+    return ((faranheit - 32)*(5/9))
+
+def london_weather():
+    weather = Weather()
+
+    lookup = weather.lookup(44418)
+    condition = lookup.condition()
+    celsius = math.ceil(faranheit_to_celsius(float(condition.temp()))*10)/10 #round to nearest 0.1 degrees
+    speak("It's " + condition.text() + " today with a temperature of " + str(celsius) + " degrees Celsius")
+
 #Think of this like Alexa skills, if the user says something, what should the answer be?
 def jarvis(data):
 
@@ -58,6 +71,10 @@ def jarvis(data):
     # tell them the time
     if find_some_term(terminology,"time"):
         tell_the_time()
+
+    # find the weather
+    if find_some_term(terminology,"weather"):
+        london_weather()
 
     if "what medicine do you have for me" in data:
         speak("I have panadol ibuprofen and xantax")
