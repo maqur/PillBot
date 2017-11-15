@@ -16,6 +16,7 @@ The list of dependencies includes:
 - pyAudio
 - Speech Recognition Library for python
 - gTTS
+- Weather-api
 - mpg321 for MAC OS X
 
 #### pip
@@ -33,6 +34,10 @@ This is simple after you have pip. The command is `pip install SpeechRecognition
 #### gTTS
 
 `sudo pip install gTTS`
+
+#### Weather API
+
+To make use of Yahoos weather API you will need to install it as `pip install weather-api`
 
 #### mpg321 for MAC OS X
 
@@ -56,6 +61,6 @@ Currently the database that includes all possible prompt responses is limited so
 2. are you my robot
 3. what time is it
 4. what medicine do you have for me
-5. where is rome
+5. what's the weather like today
 
 We expect to expand this database for the application! 
