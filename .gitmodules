@@ -1,3 +1,6 @@
 [submodule "ros-independent/speech/rasa_nlu"]
 	path = ros-independent/speech/rasa_nlu
 	url = https://github.com/Afrazinator/rasa_nlu.git
+[submodule "src/rosaria"]
+	path = src/rosaria
+	url = https://github.com/amor-ros-pkg/rosaria.git
