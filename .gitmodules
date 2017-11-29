@@ -1,0 +1,3 @@
+[submodule "ros-independent/speech/rasa_nlu"]
+	path = ros-independent/speech/rasa_nlu
+	url = https://github.com/Afrazinator/rasa_nlu.git
