@@ -41,9 +41,16 @@ This is simple after you have pip. The command is `pip install SpeechRecognition
 
 `sudo pip3 install gTTS`
 
-#### mpg321 for MAC OS X
+#### mpg321 
 
-`brew install mpg321`
+for MAC OS X:
+
+- `brew install mpg321`
+
+for Ubuntu: 
+
+- `sudo apt-get update`
+- `sudo apt-get install mpg321`
 
 #### RASA NLU
 
