@@ -16,7 +16,7 @@ The list of dependencies includes:
 - pyAudio
 - Speech Recognition Library for python
 - gTTS
-- mpg321 for MAC OS X
+- mpg321
 - RASA NLU for the Chatbot AI
 
 #### pip
