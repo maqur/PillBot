@@ -27,6 +27,12 @@ Since python comes with OS X pip should be already installed, but on the off cha
 
 `pip3 install pyaudio`
 
+for Linux:
+
+`sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0`
+`sudo apt-get install ffmpeg libav-tools`
+`sudo pip3 install pyaudio`
+
 #### Speech Recognition Library for python
 
 This is simple after you have pip. The command is `pip install SpeechRecognition` as spotted on [this website](https://pythonprogramminglanguage.com/speech-recognition/)
