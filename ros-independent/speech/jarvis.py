@@ -4,6 +4,7 @@
 import speech_recognition as sr
 from time import ctime
 import time
+from datetime import datetime
 import os
 from gtts import gTTS
 from weather import Weather
@@ -11,6 +12,15 @@ import math
 from rasa_nlu.converters import load_data
 from rasa_nlu.config import RasaNLUConfig
 from rasa_nlu.model import Trainer, Metadata, Interpreter
+from random import *
+
+#The dictionary of all responses to intents
+PillBot_response = {
+    'greet' : ["Hello","Howdy","Hi Afraz"],
+    'greet_response' : ["I'm good","It's all great","Just coughing up pills"],
+    'affirm' : ["ok","great","ok, perfect","splendid"],
+    'goodbye' : ["Goodbye","See you later","Sayonara","Till next time then"]
+}
 
 def speak(audioString):
     tts = gTTS(text=audioString, lang='en-us')
@@ -51,6 +61,7 @@ def find_some_term(terminology,find_me):
     return False
 
 def tell_the_time():
+    print(time.strftime("%c", time.gmtime()))
     speak(ctime())
 
 def faranheit_to_celsius(faranheit):
@@ -58,7 +69,6 @@ def faranheit_to_celsius(faranheit):
 
 def london_weather():
     weather = Weather()
-
     lookup = weather.lookup(44418)
     condition = lookup.condition()
     celsius = math.ceil(faranheit_to_celsius(float(condition.temp()))*10)/10 #round to nearest 0.1 degrees
@@ -74,25 +84,30 @@ def jarvis(data,interpreter):
     print(intent)
     # if the user says hello
     if intent == 'greet':
-        speak("Hello")
+        choose_idx = randint(0,len(PillBot_response['greet']) - 1)
+        speak(PillBot_response['greet'][choose_idx])
     if intent == 'greet_response':
-        speak("I'm good, how are you?")
-    if "are you my robot" in data:
-        speak("yes I am")
-
+        choose_idx = randint(0,len(PillBot_response['greet_response']) - 1)
+        speak(PillBot_response['greet_response'][choose_idx])
+    if intent == 'affirm':
+        choose_idx = randint(0,len(PillBot_response['affirm']) - 1)
+        speak(PillBot_response['affirm'][choose_idx])
+    if intent == 'goodbye':
+        choose_idx = randint(0,len(PillBot_response['goodbye']) - 1)
+        speak(PillBot_response['goodbye'][choose_idx])        
     # tell them the time
-    if find_some_term(terminology,"time"):
+    if intent == 'time':
         tell_the_time()
 
     if "how old are you" in data:
         speak("I was born yesterday")
     # find the weather
-    if find_some_term(terminology,"weather"):
+    if intent == 'weather':
         london_weather()
 
     if "tell me a joke" in data or "say something funny" in data:
         speak("Why was 6 afraid of 7?")
-        time.sleep(2)
+        time.sleep(1)
         speak("Because 7 8 9")
 
     if "what medicine do you have for me" in data:
