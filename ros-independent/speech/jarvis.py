@@ -14,6 +14,7 @@ from rasa_nlu.config import RasaNLUConfig
 from rasa_nlu.model import Trainer, Metadata, Interpreter
 from random import *
 
+
 #The dictionary of all responses to intents
 PillBot_response = {
     'greet' : ["Hello","Howdy","Hi Afraz"],
