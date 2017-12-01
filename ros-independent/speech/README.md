@@ -58,7 +58,7 @@ For rasa nlu there are two counter-intuitive things to do and a couple of extra 
 
 - First pip install rasa: `$: pip3 install rasa_nlu`
 - Then clone RASA NLU into the speech folder directory so you should have `YOUR_PATH/speech/rasa_nlu` (cloning can be done on the website: https://github.com/RasaHQ/rasa_nlu) (this is due to the way the code calls the training model) 
-- These are the extraneous dependencies to install also detailed in the RASA documentation: `$: sudo pip3 install -U spacy` and then `$: python3 -m spacy download -en` followed by the final dependency `$: pip3 install -U scikit-learn scipy sklearn-crfsuite`
+- These are the extraneous dependencies to install also detailed in the RASA documentation: `$: sudo pip3 install -U spacy` and then `$: python3 -m spacy download en` followed by the final dependency `$: pip3 install -U scikit-learn scipy sklearn-crfsuite`
 
 That should cover your dependencies. If there are any other dependencies post an issue. 
 
