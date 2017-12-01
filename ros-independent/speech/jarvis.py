@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # Requires PyAudio and PySpeech.
 
 import speech_recognition as sr
@@ -13,6 +13,7 @@ from rasa_nlu.converters import load_data
 from rasa_nlu.config import RasaNLUConfig
 from rasa_nlu.model import Trainer, Metadata, Interpreter
 from random import *
+
 
 
 #The dictionary of all responses to intents
@@ -82,29 +83,30 @@ def jarvis(data,interpreter):
     response = interpreter.parse(data)
     terminology = data.split(" ") #transform the string to a list
     intent = response['intent']['name']
-    print(intent)
-    # if the user says hello
-    if intent == 'greet':
-        choose_idx = randint(0,len(PillBot_response['greet']) - 1)
-        speak(PillBot_response['greet'][choose_idx])
-    if intent == 'greet_response':
-        choose_idx = randint(0,len(PillBot_response['greet_response']) - 1)
-        speak(PillBot_response['greet_response'][choose_idx])
-    if intent == 'affirm':
-        choose_idx = randint(0,len(PillBot_response['affirm']) - 1)
-        speak(PillBot_response['affirm'][choose_idx])
-    if intent == 'goodbye':
-        choose_idx = randint(0,len(PillBot_response['goodbye']) - 1)
-        speak(PillBot_response['goodbye'][choose_idx])        
-    # tell them the time
-    if intent == 'time':
-        tell_the_time()
+    confidence = response['intent']['confidence']
+    if confidence > 0.42:
+        if intent == 'greet':
+            choose_idx = randint(0,len(PillBot_response['greet']) - 1)
+            speak(PillBot_response['greet'][choose_idx])
+        if intent == 'greet_response':
+            choose_idx = randint(0,len(PillBot_response['greet_response']) - 1)
+            speak(PillBot_response['greet_response'][choose_idx])
+        if intent == 'affirm' and confidence > 0.5:
+            choose_idx = randint(0,len(PillBot_response['affirm']) - 1)
+            speak(PillBot_response['affirm'][choose_idx])
+        if intent == 'goodbye':
+            choose_idx = randint(0,len(PillBot_response['goodbye']) - 1)
+            speak(PillBot_response['goodbye'][choose_idx])
+        # tell them the time
+        if intent == 'time':
+            tell_the_time()
+        if intent == 'weather':
+            london_weather()
+    elif confidence < 0.42 and confidence > 0.01 :
+        speak("I did not understand what you said, please repeat that")
 
     if "how old are you" in data:
         speak("I was born yesterday")
-    # find the weather
-    if intent == 'weather':
-        london_weather()
 
     if "tell me a joke" in data or "say something funny" in data:
         speak("Why was 6 afraid of 7?")
