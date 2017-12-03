@@ -25,21 +25,21 @@ Since python comes with OS X pip should be already installed, but on the off cha
 
 #### pyAudio
 
-`pip3 install pyaudio`
+`sudo pip install pyaudio`
 
 for Linux:
 
 - `sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0`
 - `sudo apt-get install ffmpeg libav-tools`
-- `sudo pip3 install pyaudio`
+- `sudo pip install pyaudio`
 
 #### Speech Recognition Library for python
 
-This is simple after you have pip. The command is `pip install SpeechRecognition` as spotted on [this website](https://pythonprogramminglanguage.com/speech-recognition/)
+This is simple after you have pip. The command is `sudo pip install SpeechRecognition` as spotted on [this website](https://pythonprogramminglanguage.com/speech-recognition/)
 
 #### gTTS
 
-`sudo pip3 install gTTS`
+`sudo pip install gTTS`
 
 #### mpg321 
 
@@ -56,19 +56,23 @@ for Ubuntu:
 
 For rasa nlu there are two counter-intuitive things to do and a couple of extra things to add:
 
-- First pip install rasa: `$: pip3 install rasa_nlu`
+- First pip install rasa: `$ sudo pip install rasa_nlu`
 - Then clone RASA NLU into the speech folder directory so you should have `YOUR_PATH/speech/rasa_nlu` (cloning can be done on the website: https://github.com/RasaHQ/rasa_nlu) (this is due to the way the code calls the training model) 
-- These are the extraneous dependencies to install also detailed in the RASA documentation: `$: sudo pip3 install -U spacy` and then `$: python3 -m spacy download -en` followed by the final dependency `$: pip3 install -U scikit-learn scipy sklearn-crfsuite`
+- These are the extraneous dependencies to install also detailed in the RASA documentation: `$ sudo pip install -U spacy` and then `$: python -m spacy download en` followed by the final dependency `$ sudo pip install -U scikit-learn scipy sklearn-crfsuite`
 
 That should cover your dependencies. If there are any other dependencies post an issue. 
 
 ### Usage
 
-Once you have all the dependencies installed navigate to the folder that contains speech. On terminal it should be `cd YOUR_FILE_PATH/speech/` where YOUR_FILE_PATH is the directory you downloaded the speech folder to.
+First you must launch a roscore which can be done in terminal by:
 
-Once you have this working, type the following in terminal:
+`$ roscore `
 
-`$:python3 jarvis.py`
+Then type the following in a new terminal window:
+
+`$ rosrun speech jarvis.py`
+
+As of 1/12/17 the rostopic that the speech node publishes to is called /what_user_said and the log of the terminal gives you a string view on what the user said to PillBot. It can be displayed in a new terminal after the above commands have been executed as `$ rostopic echo what_user_said`
 
 It should come up with a prompt that says "Hello PillBot user?" followed by "Please wait! Calibrating microphone." then a 2 second pause to adjust the microphone to ambient noise followed by "Calibration complete, ask me what you want" 
 
