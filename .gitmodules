@@ -4,3 +4,6 @@
 [submodule "src/rosaria"]
 	path = src/rosaria
 	url = https://github.com/amor-ros-pkg/rosaria.git
+[submodule "ros-independent/webapp"]
+	path = ros-independent/webapp
+	url = https://github.com/abbachinomnso/humancrob
