@@ -85,6 +85,7 @@ def jarvis(data,interpreter):
     terminology = data.split(" ") #transform the string to a list
     intent = response['intent']['name']
     confidence = response['intent']['confidence']
+    print(confidence)
     if confidence > 0.42:
         if intent == 'greet':
             choose_idx = randint(0,len(PillBot_response['greet']) - 1)

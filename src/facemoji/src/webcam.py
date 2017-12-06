@@ -78,7 +78,7 @@ if __name__ == '__main__':
     if cv2.__version__ == '3.1.0':
         fisher_face = cv2.face.createFisherFaceRecognizer()
     else:
-        fisher_face = cv2.face.createFisherFaceRecognizer()
+        fisher_face = cv2.createFisherFaceRecognizer()
     fisher_face.load('/home/human/PillBot/src/facemoji/src/models/emotion_detection_model.xml')
 
     # use learnt model
