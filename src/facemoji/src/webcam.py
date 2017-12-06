@@ -79,7 +79,7 @@ if __name__ == '__main__':
         fisher_face = cv2.face.createFisherFaceRecognizer()
     else:
         fisher_face = cv2.face.createFisherFaceRecognizer()
-    #fisher_face.load('~/catkin_ws/src/beginner_tutorials/scripts/PillBot/src/facemoji/models/emotion_detection_model.xml')
+    fisher_face.load('/home/ayoub/catkin_ws/src/beginner_tutorials/scripts/PillBot/src/facemoji/src/models/emotion_detection_model.xml')
 
     # use learnt model
     window_name = 'WEBCAM (press ESC to exit)'
