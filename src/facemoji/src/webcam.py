@@ -18,7 +18,7 @@ def _load_emoticons(emotions):
     :param emotions: Array of emotions names.
     :return: Array of emotions graphics.
     """
-    return [nparray_as_image(cv2.imread('~/catkin_ws/src/beginner_tutorials/scripts/PillBot/src/facemoji/graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
+    return [nparray_as_image(cv2.imread('/home/human/PillBot/src/facemoji/src/graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
 
 
 def show_webcam_and_run(model, emoticons, window_size=None, window_name='webcam', update_time=10):
@@ -79,7 +79,7 @@ if __name__ == '__main__':
         fisher_face = cv2.face.createFisherFaceRecognizer()
     else:
         fisher_face = cv2.face.createFisherFaceRecognizer()
-    fisher_face.load('/home/ayoub/catkin_ws/src/beginner_tutorials/scripts/PillBot/src/facemoji/src/models/emotion_detection_model.xml')
+    fisher_face.load('/home/human/PillBot/src/facemoji/src/models/emotion_detection_model.xml')
 
     # use learnt model
     window_name = 'WEBCAM (press ESC to exit)'
