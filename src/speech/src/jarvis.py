@@ -15,6 +15,8 @@ from rasa_nlu.model import Trainer, Metadata, Interpreter
 from random import *
 import rospy
 from std_msgs.msg import String
+import http.client
+import json
 
 
 #The dictionary of all responses to intents
@@ -35,11 +37,10 @@ def recordAudio(calibrated):
     r = sr.Recognizer()
     with sr.Microphone() as source:
         if not calibrated:
-            speak("Please wait! Calibrating microphone")
             print("Please wait! Calibrating microphone")
             #Listen for 5 seconds to adjust for ambient noise
-            r.adjust_for_ambient_noise(source, duration = 3)
-            speak("Calibration complete, ask me what you want")
+            r.adjust_for_ambient_noise(source, duration = 1)
+
         print("Say something!")
         audio = r.listen(source)
 
@@ -118,35 +119,104 @@ def jarvis(data,interpreter):
     if "what medicine do you have for me" in data:
         speak("I have panadol ibuprofen and xantax")
 
+def meeting_PillBot_user(name_of_user,pills_data):
+    calibrated = False
+    pill1 =  pills_data[0]
+    pill2 =  pills_data[1]
+    speak("Hello " + name_of_user + ". I will be giving you your pills today!")
+    speak("You have " + pill1 + " paracetamol and " + pill2 + " panadol")
+    time.sleep(1)
+    speak("Can you confirm that these are your pills? Say yes if they are or no if they are not")
+    expected_response = False
+    data = recordAudio(calibrated)
+    calibrated = True
+    while(not expected_response):
+        if(data == "yes"):
+            speak("Great,dispensing your pills now")
+            time.sleep(1)
+            expected_response = True
+            pub2 = rospy.Publisher('dispense_pills_now',String,queue_size=10)
+            rospy.loginfo("1")
+            time.sleep(2)
+            pub2.publish("1")
+        elif(data == "no"):
+            expected_response = True
+            speak("Sorry, calling PillBot engineers now")
+        else:
+            speak("Could you repeat that?")
+            data = recordAudio(calibrated)
 
+
+
+
+def callback(name_data):
+        #Perform machine learning model train first:
+        #the load data command looks for a JSON file of your training data in the directory you have it stored, just input file-name if in same directory.
+        training_data = load_data('rasa_nlu/data/examples/rasa/demo-rasa.json')
+        #Wherever you have git cloned rasa_nlu it will look for Spacy's configuration of the JSON file
+        trainer = Trainer(RasaNLUConfig("rasa_nlu/sample_configs/config_spacy.json"))
+        #this just trains based on the training data
+        trainer.train(training_data)
+
+        model_directory = trainer.persist('./projects/default/')  # Returns the directory the model is stored in
+
+        # where `model_directory points to the folder the model is persisted in
+        interpreter = Interpreter.load(model_directory, RasaNLUConfig("rasa_nlu/sample_configs/config_spacy.json"))
+        pills_data = get_pill_data(name_data.data)
+        rate = rospy.Rate(10)
+        pub = rospy.Publisher('what_user_said', String, queue_size=10)
+        meeting_PillBot_user(name_data.data,pills_data)
+        calibrated = True
+        speak("would you like to have a conversation? Reply yes or no")
+        expected_response = False
+        wants_to_converse = False
+        data = recordAudio(calibrated)
+        time.sleep(1)
+        while(not expected_response):
+            if(data == "yes"):
+                expected_response = True
+                wants_to_converse = True
+            elif(data == "no"):
+                expected_response = True
+                wants_to_converse = False
+            else:
+                speak("Could you repeat that?")
+                data = recordAudio(calibrated)
+        if(wants_to_converse):
+            while not rospy.is_shutdown():
+                data = recordAudio(calibrated)
+                rospy.loginfo(data)
+                pub.publish(data)
+                rate.sleep()
+                jarvis(data,interpreter)
+
+def get_pill_data(name):
+    conn = http.client.HTTPSConnection("box-6748659.us-east-1.bonsaisearch.net")
+
+    headers = {
+        'authorization': "Basic NTh5NWNrNmU6djdvY3c3NWY3MjlxYXp3NQ==",
+        'cache-control': "no-cache",
+        }
+    url =  "/try/try/" + name
+    conn.request("GET", url, headers=headers)
+
+    res = conn.getresponse()
+    data = json.loads(res.read())
+
+    paracetamol = data["_source"]["paracetamol"]
+    panadol = data["_source"]["panadol"]
+
+    return [paracetamol, panadol]
 
 def main():
-    #Perform machine learning model train first:
-    #the load data command looks for a JSON file of your training data in the directory you have it stored, just input file-name if in same directory.
-    training_data = load_data('rasa_nlu/data/examples/rasa/demo-rasa.json')
-    #Wherever you have git cloned rasa_nlu it will look for Spacy's configuration of the JSON file
-    trainer = Trainer(RasaNLUConfig("rasa_nlu/sample_configs/config_spacy.json"))
-    #this just trains based on the training data
-    trainer.train(training_data)
 
-    model_directory = trainer.persist('./projects/default/')  # Returns the directory the model is stored in
-
-    # where `model_directory points to the folder the model is persisted in
-    interpreter = Interpreter.load(model_directory, RasaNLUConfig("rasa_nlu/sample_configs/config_spacy.json"))
-
-    speak("Hello PillBot User!")
-    pub = rospy.Publisher('what_user_said', String, queue_size=10)
     rospy.init_node('speechrec', anonymous=True)
-    rate = rospy.Rate(10)
-    calibrated = False
-    while not rospy.is_shutdown():
-        data = recordAudio(calibrated)
-        rospy.loginfo(data)
-        pub.publish(data)
-        rate.sleep()
-        jarvis(data,interpreter)
-        calibrated = True
+
+    rospy.Subscriber("name",String,callback)
+    rospy.spin()
+
 # initialization
 time.sleep(2)
+
 if __name__ == "__main__":
     main()
