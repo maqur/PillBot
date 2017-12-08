@@ -9,14 +9,17 @@ from cv_bridge import CvBridge,CvBridgeError
 import std_msgs
 import sensor_msgs
 
+def callback(data):
+    print("running the listener ")
+    rospy.loginfo(rospy.get_caller_id() +"I heard %s",data.data)
+    detect(data.data)
 
-
-def detector():
-
+def detect(target):
     path='dataSet'
     path_name='names'
-
-
+      
+    #target=raw_input("Please enter name of the target : ")
+    print("running detector")
     faceDetect=cv2.CascadeClassifier('/home/mikheil/catkin_ws/src/face_det/scripts/haarcascade_frontalface_default.xml')
     
     with open("/home/mikheil/catkin_ws/src/face_det/scripts/names/names.json", 'r') as f:
@@ -35,15 +38,8 @@ def detector():
     bg=CvBridge()
     pub=rospy.Publisher('face_id',std_msgs.msg.String,queue_size=10)
     pub_2=rospy.Publisher('face_stream',sensor_msgs.msg.Image, queue_size=10)
-    
-    
-    
-    rospy.init_node('detector',anonymous=True)
-
-
+     
     rate=rospy.Rate(10)
-
-
 
     while(True):
         ret,img=cam.read()
@@ -53,8 +49,13 @@ def detector():
             cv2.rectangle(img,(x,y),(w+w,y+h),(0,255,0),2)
             id_var,cong=rec.predict(gray[y:y+h,x:x+w])
             cv2.putText(img,str(names_dict[str(id_var)]),(x,y+h),font,2,(0,0,255),6)
-        pub.publish(str(names_dict[str(id_var)]))
-        pub_2.publish(bg.cv2_to_imgmsg(img))
+
+        if str(names_dict[str(id_var)]) == target:
+            pub.publish(str(names_dict[str(id_var)]))
+            pub_2.publish(bg.cv2_to_imgmsg(img))
+            id_var=0
+        else:
+            pub.publish("Target not detected ")
         rate.sleep()
 		#print(str(names_dict[str(id_var)])+" detected ")
         cv2.imshow("Face",img)
@@ -62,6 +63,20 @@ def detector():
 			break
     cam.release()
     cv2.destroyAllWindows()
+    
+
+def detector():
+
+    path='dataSet'
+    path_name='names'
+    print("loading main mehtod ")
+    
+    rospy.init_node('detector',anonymous=True)
+
+    rospy.Subscriber("name", std_msgs.msg.String, callback)
+   
+    #rospy.spin()
+
 	
 if __name__=='__main__':
 	try:
