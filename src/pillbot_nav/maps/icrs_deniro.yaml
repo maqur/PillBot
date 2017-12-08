@@ -1,0 +1,8 @@
+# image: /home/petar/quickie_ws/src/quickie_nav/maps/mymap.pgm
+image: /home/petar/asda-project/src/deniro_nav/maps/mymap.pgm
+resolution: 0.025 # meter/pixel
+origin: [-0, -0, 0.000000] #[-12.812499, -12.812499, 0.000000] #[-30.900000, -31.600000, 0.000000] #origin of map
+negate: 0 #whether white/black free/occupied semantics should be reversed
+occupied_thresh: 0.65 #pixels with occupancy proability greater than this are completely occupied
+free_thresh: 0.196 #pixels with occupancy probability less than this are completely free
+

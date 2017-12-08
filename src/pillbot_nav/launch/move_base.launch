@@ -1,11 +1,14 @@
 <launch>
   <master auto="start"/>
 
+  <arg name="map_file" default="$(find pillbot_nav)/maps/5-common.yaml"/>
+
   <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find my_map_package)/my_map.pgm my_map_resolution"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)"/>
 
   <!--- Run AMCL -->
-  <include file="$(find amcl)/examples/amcl_omni.launch" />
+  <!-- <include file="$(find amcl)/examples/amcl_omni.launch" /> -->
+  <include file="$(find amcl)/examples/amcl_diff.launch" />
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find pillbot_nav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -14,4 +17,7 @@
     <rosparam file="$(find pillbot_nav)/config/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find pillbot_nav)/config/base_local_planner_params.yaml" command="load" />
   </node>
+
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pillbot_nav)/config/pillbot_nav.rviz"/>
+
 </launch>
