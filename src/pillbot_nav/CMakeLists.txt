@@ -138,8 +138,8 @@ include_directories(
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/navigation_node.cpp)
 
-#add_executable(angular_bound_filter src/angular_bound_filter.cpp)
-#target_link_libraries(angular_bound_filter ${catkin_LIBRARIES})
+add_executable(angular_bound_filter src/angular_bound_filter.cpp)
+target_link_libraries(angular_bound_filter ${catkin_LIBRARIES})
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

@@ -7,6 +7,9 @@
         <param name="angle_compensate"    type="bool"   value="true"/>
     </node>
 
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" output="screen" name="laser_filter">
+        <rosparam command="load" file="$(find pillbot_nav)/config/laser_angle_filter.yaml" />
+    </node>
 
     <node name="RosAria"    pkg="rosaria"   type="RosAria"  output="screen">
         <param name="port"  type="string"   value="/dev/pillbot"/>
@@ -14,6 +17,6 @@
 
 
     <node   pkg="tf" type="static_transform_publisher" name="laser_to_baselink_tf" 
-            args="0 0 0 0 0 0 base_link laser 10" /> 
+            args="0.15 0 0 0 0 3.14159 base_link laser 10" /> 
 
 </launch>
