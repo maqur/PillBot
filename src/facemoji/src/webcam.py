@@ -16,10 +16,14 @@ def _load_emoticons(emotions):
     :return: Array of emotions graphics.
     """
 <<<<<<< HEAD
+<<<<<<< HEAD
     return [nparray_as_image(cv2.imread('/home/human/PillBot/src/facemoji/src/graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
 =======
     return [nparray_as_image(cv2.imread('graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
 >>>>>>> working files
+=======
+    return [nparray_as_image(cv2.imread('graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
+>>>>>>> 1311a162350e041c35a070a8af82548d9927b49d
 
 
 def show_webcam_and_run(model, emoticons, window_size=None, window_name='webcam', update_time=10):
