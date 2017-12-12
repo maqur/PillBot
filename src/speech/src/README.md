@@ -8,7 +8,7 @@ In order to use the speech folder for performing speech recognition, there are n
 
 ### Dependencies
 
-Before you begin using the software make sure you have installed Python 3 (It doesn't work with Python 2.x).
+Before you begin using the software make sure you have installed Python 2 (It doesn't work with Python 3.x).
 
 The list of dependencies includes:
 
