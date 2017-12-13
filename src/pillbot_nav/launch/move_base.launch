@@ -40,6 +40,9 @@
     <param name="transform_tolerance" value="0.1"/>
     <param name="recovery_alpha_slow" value="0.0"/>
     <param name="recovery_alpha_fast" value="0.0"/>
+    <param name="initial_pose_x" value="2.24151158333"/>
+    <param name="initial_pose_y" value="-2.27514123917"/>
+    <param name="initial_pose_a" value="1.570796"/>
   </node>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
