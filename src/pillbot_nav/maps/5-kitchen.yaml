@@ -1,4 +1,4 @@
-image: /home/affan/Workspace/PillBot/src/pillbot_nav/maps/5-kitchen.pgm
+image: /home/human/PillBot/src/pillbot_nav/maps/5-kitchen.pgm
 resolution: 0.050000
 origin: [-100.000000, -100.000000, 0.000000]
 negate: 0
