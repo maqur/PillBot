@@ -24,7 +24,7 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg)
   goal.target_pose.pose.position.x = 2.24151158333;
   goal.target_pose.pose.position.y = -2.27514123917;
   goal.target_pose.pose.position.z = 0;
-  goal.target_pose.pose.orientation = tf::createQuaternionMsgFromYaw(-1.570796);
+  goal.target_pose.pose.orientation = tf::createQuaternionMsgFromYaw(1.570796);
 
   ROS_INFO("Sending goal");
   ac.sendGoal(goal);
