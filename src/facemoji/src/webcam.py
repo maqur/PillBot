@@ -68,28 +68,28 @@ def show_webcam_and_run(detected, model, emoticons, update_time=10):
     #    print("webcam not found")
     #    return
     emotions = ['neutral', 'anger', 'disgust', 'happy', 'sadness', 'surprise']
-    new_image = bg.imgmsg_to_cv2(detected, desired_encoding="passthrough")
     
-    while not rospy.is_shutdown():
+    #while not rospy.is_shutdown():
         #for normalized_face, (x, y, w, h) in find_faces(webcam_image):
-        for normalized_face, (x, y, w, h) in find_faces(new_image):
-            prediction = model.predict(normalized_face)  # do prediction
-            if cv2.__version__ != '3.1.0':
-                prediction = prediction[0]
+    new_image = bg.imgmsg_to_cv2(detected, desired_encoding="passthrough")
+    for normalized_face, (x, y, w, h) in find_faces(new_image):
+        prediction = model.predict(normalized_face)  # do prediction
+        if cv2.__version__ != '3.1.0':
+            prediction = prediction[0]
 
-            image_to_draw = emoticons[prediction]
-            print(emotions[prediction])
-            rospy.loginfo(emotions[prediction])
-            pub.publish(emotions[prediction])
-            rate.sleep()
-            #draw_with_alpha(webcam_image, image_to_draw, (x, y, w, h))
+        image_to_draw = emoticons[prediction]
+        print(emotions[prediction])
+        rospy.loginfo(emotions[prediction])
+        pub.publish(emotions[prediction])
+        rate.sleep()
+        #draw_with_alpha(webcam_image, image_to_draw, (x, y, w, h))
 
-        #cv2.imshow(window_name, webcam_image)
-        #read_value, webcam_image = vc.read()
-        key = cv2.waitKey(update_time)
+    #cv2.imshow(window_name, webcam_image)
+    #read_value, webcam_image = vc.read()
+    key = cv2.waitKey(update_time)
 
-        if key == 27:  # exit on ESC
-            break
+    #if key == 27:  # exit on ESC
+    #    break
 
     #cv2.destroyWindow(window_name)
 
