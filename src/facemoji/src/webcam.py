@@ -10,6 +10,12 @@ from face_detect import find_faces
 from image_commons import nparray_as_image, draw_with_alpha
 import rospy
 from std_msgs.msg import String
+from cv_bridge import CvBridge,CvBridgeError
+
+
+def callback(face_stream):
+    #rospy.loginfo(rospy.get_caller_id() + 'I heard %s', face_stream.data)
+    return face_stream.data
 
 
 def _load_emoticons(emotions):
@@ -30,9 +36,13 @@ def show_webcam_and_run(model, emoticons, window_size=None, window_name='webcam'
     :param window_name: Name of webcam image window.
     :param update_time: Image update time interval.
     """
+    # Need to subscribe to the topic face_stream, receive the images in the ROS format, and convert them to openCV format
     pub = rospy.Publisher('mood', String, queue_size=10)
     rospy.init_node('webcam', anonymous=True)
+    bg = CvBridge()
+    sub = rospy.Subscriber('face_stream', sensor_msgs.msg.Image, callback)
     rate = rospy.Rate(10)
+
     cv2.namedWindow(window_name, WINDOW_NORMAL)
     if window_size:
         width, height = window_size
@@ -46,7 +56,8 @@ def show_webcam_and_run(model, emoticons, window_size=None, window_name='webcam'
         return
     emotions = ['neutral', 'anger', 'disgust', 'happy', 'sadness', 'surprise']
     while read_value and not rospy.is_shutdown():
-        for normalized_face, (x, y, w, h) in find_faces(webcam_image):
+        #for normalized_face, (x, y, w, h) in find_faces(webcam_image):
+        for normalized_face, (x, y, w, h) in find_faces(sub):
             prediction = model.predict(normalized_face)  # do prediction
             if cv2.__version__ != '3.1.0':
                 prediction = prediction[0]
