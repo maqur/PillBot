@@ -18,8 +18,8 @@ def _load_emoticons(emotions):
     :param emotions: Array of emotions names.
     :return: Array of emotions graphics.
     """
-    return [nparray_as_image(cv2.imread('/home/human/PillBot/src/facemoji/src/graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
 
+    return [nparray_as_image(cv2.imread('/home/human/PillBot/src/facemoji/src/graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
 
 def show_webcam_and_run(model, emoticons, window_size=None, window_name='webcam', update_time=10):
     """
@@ -30,11 +30,9 @@ def show_webcam_and_run(model, emoticons, window_size=None, window_name='webcam'
     :param window_name: Name of webcam image window.
     :param update_time: Image update time interval.
     """
-
     pub = rospy.Publisher('mood', String, queue_size=10)
     rospy.init_node('webcam', anonymous=True)
-    rate = rospy.Rate(10) # 10hz
-
+    rate = rospy.Rate(10)
     cv2.namedWindow(window_name, WINDOW_NORMAL)
     if window_size:
         width, height = window_size
@@ -53,10 +51,10 @@ def show_webcam_and_run(model, emoticons, window_size=None, window_name='webcam'
             if cv2.__version__ != '3.1.0':
                 prediction = prediction[0]
 
-            #image_to_draw = emoticons[prediction]
+            image_to_draw = emoticons[prediction]
             print(emotions[prediction])
-            rospy.loginfo(hello_str)
-            pub.publish(hello_str)
+            rospy.loginfo(emotions[prediction])
+            pub.publish(emotions[prediction])
             rate.sleep()
             #draw_with_alpha(webcam_image, image_to_draw, (x, y, w, h))
 
@@ -72,18 +70,19 @@ def show_webcam_and_run(model, emoticons, window_size=None, window_name='webcam'
 
 if __name__ == '__main__':
     emotions = ['neutral', 'anger', 'disgust', 'happy', 'sadness', 'surprise']
-    #emoticons = _load_emoticons(emotions)
+    emoticons = _load_emoticons(emotions)
 
     # load model
     if cv2.__version__ == '3.1.0':
         fisher_face = cv2.face.createFisherFaceRecognizer()
     else:
-        fisher_face = cv2.createFisherFaceRecognizer()
+        fisher_face = cv2.face.createFisherFaceRecognizer()
+
     fisher_face.load('/home/human/PillBot/src/facemoji/src/models/emotion_detection_model.xml')
 
     # use learnt model
     window_name = 'WEBCAM (press ESC to exit)'
     try:
-        show_webcam_and_run(fisher_face, emoticons=[], window_size=(1600, 1200), window_name=window_name, update_time=8)
+        show_webcam_and_run(fisher_face, emoticons, window_size=(1600, 1200), window_name=window_name, update_time=8)
     except rospy.ROSInterruptException:
         pass
