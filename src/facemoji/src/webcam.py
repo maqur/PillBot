@@ -10,6 +10,7 @@ from face_detect import find_faces
 from image_commons import nparray_as_image, draw_with_alpha
 import rospy
 from std_msgs.msg import String
+import sensor_msgs
 from cv_bridge import CvBridge,CvBridgeError
 
 
@@ -57,7 +58,7 @@ def show_webcam_and_run(model, emoticons, window_size=None, window_name='webcam'
     emotions = ['neutral', 'anger', 'disgust', 'happy', 'sadness', 'surprise']
     while read_value and not rospy.is_shutdown():
         #for normalized_face, (x, y, w, h) in find_faces(webcam_image):
-        for normalized_face, (x, y, w, h) in find_faces(sub):
+        for normalized_face, (x, y, w, h) in find_faces(bg.cv2_to_imgmsg(sub)):
             prediction = model.predict(normalized_face)  # do prediction
             if cv2.__version__ != '3.1.0':
                 prediction = prediction[0]
