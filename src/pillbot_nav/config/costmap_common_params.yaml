@@ -1,11 +1,10 @@
-obstacle_range: 5.0
-raytrace_range: 4.5
-footprint: [[-0.20, -0.20], [-0.20, 0.20], [0.20, 0.20], [0.20, -0.20]]
-robot_radius: 0.4
-inflation_radius: 0.55
+obstacle_range: 4.0
+raytrace_range: 3.5
+footprint: [[-0.28, 0.19], [-0.28, -0.19], [-0.20, -0.24], [0.20, -0.24], [0.28, -0.19], [0.28, 0.19], [0.20, 0.24], [-0.20, 0.24]]
+inflation_radius: 0.40
 
-observation_sources: laser_scan_sensor # ultrasound_sensor
+observation_sources: laser_scan_sensor #ultrasound_sensor
 
-laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: scan, marking: true, clearing: true}
+laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: scan_rplidar, marking: true, clearing: true}
 
-# ultrasound_sensor: {sensor_frame: frame_name, data_type: PointCloud, topic: topic_name, marking: true, clearing: true}
+#ultrasound_sensor: {sensor_frame: sonar, data_type: PointCloud, topic: RosAria/sonar, marking: true, clearing: true}

@@ -11,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   move_base_msgs
   roscpp
+  std_msgs
+  tf
 )
 
 ## System dependencies are found with CMake's conventions
@@ -199,3 +201,6 @@ include_directories(
 # catkin_add_nosetests(test)
 add_executable(simple_navigation_goals src/simple_nav_goal.cpp)
 target_link_libraries(simple_navigation_goals ${catkin_LIBRARIES})
+
+add_executable(get_back src/get_back.cpp)
+target_link_libraries(get_back ${catkin_LIBRARIES})

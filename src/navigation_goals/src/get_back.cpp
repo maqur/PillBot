@@ -1,21 +1,13 @@
-#include <ros/ros.h>
-#include <std_msgs/String.h>
+#include "ros/ros.h"
+#include "std_msgs/String.h"
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <tf/transform_datatypes.h>
 
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
-int main(int argc, char** argv){
-  ros::init(argc, argv, "simple_navigation_goals");
-
-  ros::NodeHandle n;
-  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("nav_reached", 1000);
-  ros::Rate loop_rate(10);
-  std_msgs::String msg;
-  msg.data = "Mikheil";
-
-  //tell the action client that we want to spin a thread by default
+void chatterCallback(const std_msgs::String::ConstPtr& msg)
+{
   MoveBaseClient ac("move_base", true);
 
   //wait for the action server to come up
@@ -29,10 +21,10 @@ int main(int argc, char** argv){
   goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
 
-  goal.target_pose.pose.position.x = 0.17505812645;
-  goal.target_pose.pose.position.y = 1.72512710094;
+  goal.target_pose.pose.position.x = 2.24151158333;
+  goal.target_pose.pose.position.y = -2.27514123917;
   goal.target_pose.pose.position.z = 0;
-  goal.target_pose.pose.orientation = tf::createQuaternionMsgFromYaw(-1.7);
+  goal.target_pose.pose.orientation = tf::createQuaternionMsgFromYaw(-1.570796);
 
   ROS_INFO("Sending goal");
   ac.sendGoal(goal);
@@ -41,10 +33,20 @@ int main(int argc, char** argv){
 
   if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED){
     ROS_INFO("Hooray, the base moved 1 meter forward");
-    chatter_pub.publish(msg);
   }
   else
     ROS_INFO("The base failed to move forward 1 meter for some reason");
+}
+
+int main(int argc, char **argv)
+{
+  ros::init(argc, argv, "get_back");
+
+  ros::NodeHandle n;
+
+  ros::Subscriber sub = n.subscribe("end", 1000, chatterCallback);
+
+  ros::spin();
 
   return 0;
 }

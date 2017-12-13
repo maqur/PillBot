@@ -23,4 +23,6 @@
     <node   pkg="tf" type="static_transform_publisher" name="laser_to_baselink_tf" 
             args="0.15 0 0 0 0 3.14159 base_link laser 10" /> 
 
+    <!-- <node   pkg="tf" type="static_transform_publisher" name="sonar_to_baselink_tf" 
+            args="0 0 0 0 0 0 base_link sonar 10" />  -->
 </launch>
