@@ -27,6 +27,8 @@ PillBot_response = {
     'goodbye' : ["Goodbye","See you later","Sayonara","Till next time then"]
 }
 
+pills_data = []
+
 def speak(audioString):
     tts = gTTS(text=audioString, lang='en-us')
     tts.save("audio.mp3")
@@ -116,14 +118,31 @@ def jarvis(data,interpreter):
         time.sleep(1)
         speak("Because 7 8 9")
 
-    if "what medicine do you have for me" in data:
-        speak("I have panadol ibuprofen and xantax")
+    end_method(intent)
+
+def end_method(intent):
+    return intent
+
+def callback2(data):
+    talking_to_PillBot_user_first_time(data.data)
+
+def talking_to_PillBot_user_first_time(mood_data):
+    return mood_data
+
 
 def meeting_PillBot_user(name_of_user,pills_data):
+    speak("Hello " + name_of_user + ". I will be giving you your pills today!")
     calibrated = False
     pill1 =  pills_data[0]
     pill2 =  pills_data[1]
-    speak("Hello " + name_of_user + ". I will be giving you your pills today!")
+    rospy.Subscriber("mood",String,callback2)
+    mood_obj = rospy.wait_for_message("mood", String, timeout=20)
+    mood = mood_obj.data
+    #mood = "happy"
+    time.sleep(2)
+    speak("You look " + mood + " today!")
+    print("You look " + mood + " today!")
+    time.sleep(1)
     speak("You have " + pill1 + " paracetamol and " + pill2 + " panadol")
     time.sleep(1)
     speak("Can you confirm that these are your pills? Say yes if they are or no if they are not")
@@ -139,12 +158,16 @@ def meeting_PillBot_user(name_of_user,pills_data):
             rospy.loginfo("1")
             time.sleep(2)
             pub2.publish("1")
+            time.sleep(40)
         elif(data == "no"):
             expected_response = True
             speak("Sorry, calling PillBot engineers now")
         else:
             speak("Could you repeat that?")
+            calibrated = False
             data = recordAudio(calibrated)
+            calibrated = True
+            continue
 
 
 
@@ -152,25 +175,34 @@ def meeting_PillBot_user(name_of_user,pills_data):
 def callback(name_data):
         #Perform machine learning model train first:
         #the load data command looks for a JSON file of your training data in the directory you have it stored, just input file-name if in same directory.
-        training_data = load_data('rasa_nlu/data/examples/rasa/demo-rasa.json')
+
+        pub3 = rospy.Publisher('end',String,queue_size=10)
+
+        training_data = load_data('/home/human/PillBot/ros-independent/speech/rasa_nlu/data/examples/rasa/demo-rasa.json')
         #Wherever you have git cloned rasa_nlu it will look for Spacy's configuration of the JSON file
-        trainer = Trainer(RasaNLUConfig("rasa_nlu/sample_configs/config_spacy.json"))
+        trainer = Trainer(RasaNLUConfig("/home/human/PillBot/ros-independent/speech/rasa_nlu/sample_configs/config_spacy.json"))
         #this just trains based on the training data
         trainer.train(training_data)
 
         model_directory = trainer.persist('./projects/default/')  # Returns the directory the model is stored in
 
         # where `model_directory points to the folder the model is persisted in
-        interpreter = Interpreter.load(model_directory, RasaNLUConfig("rasa_nlu/sample_configs/config_spacy.json"))
+        interpreter = Interpreter.load(model_directory, RasaNLUConfig("/home/human/PillBot/ros-independent/speech/rasa_nlu/sample_configs/config_spacy.json"))
         pills_data = get_pill_data(name_data.data)
         rate = rospy.Rate(10)
         pub = rospy.Publisher('what_user_said', String, queue_size=10)
         meeting_PillBot_user(name_data.data,pills_data)
-        calibrated = True
-        speak("would you like to have a conversation? Reply yes or no")
+
+        time.sleep(1)
+        calibrated = False
+
+
+        speak("Goodbye" + name_data.data)
+        pub3.publish("end")
         expected_response = False
         wants_to_converse = False
         data = recordAudio(calibrated)
+        calibrated = True
         time.sleep(1)
         while(not expected_response):
             if(data == "yes"):
@@ -180,8 +212,10 @@ def callback(name_data):
                 expected_response = True
                 wants_to_converse = False
             else:
-                speak("Could you repeat that?")
+                time.sleep(3)
+                #speak("Could you repeat that?")
                 data = recordAudio(calibrated)
+                continue
         if(wants_to_converse):
             while not rospy.is_shutdown():
                 data = recordAudio(calibrated)
@@ -189,6 +223,9 @@ def callback(name_data):
                 pub.publish(data)
                 rate.sleep()
                 jarvis(data,interpreter)
+                if end_method == 'goodbye':
+                    break
+        pub3.publish("end")
 
 def get_pill_data(name):
     conn = http.client.HTTPSConnection("box-6748659.us-east-1.bonsaisearch.net")

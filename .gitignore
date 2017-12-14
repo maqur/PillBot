@@ -2,4 +2,6 @@ build/
 devel/
 .catkin_workspace
 src/CMakeLists.txt
+*.mp3
 *.*~
+src/pillbot_nav/maps/5-kitchen.yaml

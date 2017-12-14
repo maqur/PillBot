@@ -20,18 +20,18 @@ def detect(target):
       
     #target=raw_input("Please enter name of the target : ")
     print("running detector")
-    faceDetect=cv2.CascadeClassifier('/home/mikheil/catkin_ws/src/face_det/scripts/haarcascade_frontalface_default.xml')
+    faceDetect=cv2.CascadeClassifier('/home/human/PillBot/src/face_det/scripts/haarcascade_frontalface_default.xml')
     
-    with open("/home/mikheil/catkin_ws/src/face_det/scripts/names/names.json", 'r') as f:
+    with open("/home/human/PillBot/src/face_det/scripts/names/names.json", 'r') as f:
 	    names_dict = json.load(f)
 	    
 	    
 
 
-    cam=cv2.VideoCapture(0)
+    cam=cv2.VideoCapture(1)
 
     rec=cv2.face.createLBPHFaceRecognizer()
-    rec.load(os.path.abspath("/home/mikheil/catkin_ws/src/face_det/scripts/recognizer/trainingData.yml"))
+    rec.load(os.path.abspath("/home/human/PillBot/src/face_det/scripts/recognizer/trainingData.yml"))
     id_var=0
     font=cv2.FONT_HERSHEY_COMPLEX_SMALL
 
@@ -52,7 +52,9 @@ def detect(target):
 
         if str(names_dict[str(id_var)]) == target:
             pub.publish(str(names_dict[str(id_var)]))
-            pub_2.publish(bg.cv2_to_imgmsg(img))
+	    old_image = bg.cv2_to_imgmsg(img, encoding="passthrough")
+            pub_2.publish(old_image)
+	    new_image = bg.imgmsg_to_cv2(old_image, desired_encoding="passthrough")
             id_var=0
         else:
             pub.publish("Target not detected ")
@@ -75,7 +77,7 @@ def detector():
 
     rospy.Subscriber("name", std_msgs.msg.String, callback)
    
-    #rospy.spin()
+    rospy.spin()
 
 	
 if __name__=='__main__':
