@@ -10,10 +10,10 @@ int main(int argc, char** argv){
   ros::init(argc, argv, "simple_navigation_goals");
 
   ros::NodeHandle n;
-  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("nav_reached", 1000);
+  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("name", 1000);
   ros::Rate loop_rate(10);
   std_msgs::String msg;
-  msg.data = "Mikheil";
+  msg.data = "afraz";
 
   //tell the action client that we want to spin a thread by default
   MoveBaseClient ac("move_base", true);
@@ -30,7 +30,7 @@ int main(int argc, char** argv){
   goal.target_pose.header.stamp = ros::Time::now();
 
   goal.target_pose.pose.position.x = 0.17505812645;
-  goal.target_pose.pose.position.y = 1.72512710094;
+  goal.target_pose.pose.position.y = 1.52512710094;
   goal.target_pose.pose.position.z = 0;
   goal.target_pose.pose.orientation = tf::createQuaternionMsgFromYaw(2.0);
 
