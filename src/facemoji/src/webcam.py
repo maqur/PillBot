@@ -15,8 +15,8 @@ from cv_bridge import CvBridge,CvBridgeError
 
 
 def callback(face_stream):
-    emotions = ['neutral', 'anger', 'disgust', 'happy', 'sadness', 'surprise']
-    emoticons = _load_emoticons(emotions)
+    emotions = ['neutral', 'angry', 'disgusted', 'happy', 'sad', 'surprised']
+    #emoticons = _load_emoticons(emotions)
 
     # load model
     if cv2.__version__ == '3.1.0':
@@ -29,7 +29,7 @@ def callback(face_stream):
     # use learnt model
     #window_name = 'WEBCAM (press ESC to exit)'
     #rospy.loginfo(rospy.get_caller_id() + 'I heard %s', face_stream.data)
-    show_webcam_and_run(face_stream, fisher_face, emoticons, update_time=8)
+    show_webcam_and_run(face_stream, fisher_face, update_time=8)
     #return face_stream.data
 
 
@@ -42,7 +42,7 @@ def _load_emoticons(emotions):
 
     return [nparray_as_image(cv2.imread('/home/human/PillBot/src/facemoji/src/graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
 
-def show_webcam_and_run(detected, model, emoticons, update_time=10):
+def show_webcam_and_run(detected, model, update_time=10):
     """
     Shows webcam image, detects faces and its emotions in real time and draw emoticons over those faces.
     :param model: Learnt emotion detection model.
@@ -67,7 +67,7 @@ def show_webcam_and_run(detected, model, emoticons, update_time=10):
     #else:
     #    print("webcam not found")
     #    return
-    emotions = ['neutral', 'anger', 'disgust', 'happy', 'sadness', 'surprise']
+    emotions = ['neutral', 'angry', 'disgusted', 'happy', 'sad', 'surprised']
     
     #while not rospy.is_shutdown():
         #for normalized_face, (x, y, w, h) in find_faces(webcam_image):
@@ -77,7 +77,7 @@ def show_webcam_and_run(detected, model, emoticons, update_time=10):
         if cv2.__version__ != '3.1.0':
             prediction = prediction[0]
 
-        image_to_draw = emoticons[prediction]
+        #image_to_draw = emoticons[prediction]
         print(emotions[prediction])
         rospy.loginfo(emotions[prediction])
         pub.publish(emotions[prediction])
