@@ -1,12 +1,9 @@
-# Ros-Independent
 
-This folder primarily contains all the developmental material made by Team PillBot that was not yet imported to ROS. For run instructions on the code see the section below:
-
-## Speech
+# Speech
 
 In order to use the speech folder for performing speech recognition, there are numerous dependencies that need to be installed. This guide will cover the MAC OS X dependencies but the installation should be similar for other platforms. (Update: the same methodology works for linux Ubuntu)
 
-### Dependencies
+## Dependencies
 
 Before you begin using the software make sure you have installed Python 3 (It doesn't work with Python 2.x).
 
@@ -19,11 +16,11 @@ The list of dependencies includes:
 - mpg321
 - RASA NLU for the Chatbot AI
 
-#### pip
+### pip
 
 Since python comes with OS X pip should be already installed, but on the off chance your python version turns up errors then use homebrew. The simple command would then be `$: brew install python` on terminal.
 
-#### pyAudio
+### pyAudio
 
 `sudo pip install pyaudio`
 
@@ -33,15 +30,15 @@ for Linux:
 - `sudo apt-get install ffmpeg libav-tools`
 - `sudo pip install pyaudio`
 
-#### Speech Recognition Library for python
+### Speech Recognition Library for python
 
 This is simple after you have pip. The command is `sudo pip install SpeechRecognition` as spotted on [this website](https://pythonprogramminglanguage.com/speech-recognition/)
 
-#### gTTS
+### gTTS
 
 `sudo pip install gTTS`
 
-#### mpg321 
+### mpg321 
 
 for MAC OS X:
 
@@ -52,7 +49,7 @@ for Ubuntu:
 - `sudo apt-get update`
 - `sudo apt-get install mpg321`
 
-#### RASA NLU
+### RASA NLU
 
 For rasa nlu there are two counter-intuitive things to do and a couple of extra things to add:
 
@@ -62,7 +59,7 @@ For rasa nlu there are two counter-intuitive things to do and a couple of extra 
 
 That should cover your dependencies. If there are any other dependencies post an issue. 
 
-### Usage
+## Usage
 
 First you must launch a roscore which can be done in terminal by:
 
