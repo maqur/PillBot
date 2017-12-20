@@ -118,10 +118,8 @@ def jarvis(data,interpreter):
         time.sleep(1)
         speak("Because 7 8 9")
 
-    end_method(intent)
-
-def end_method(intent):
     return intent
+
 
 def callback2(data):
     talking_to_PillBot_user_first_time(data.data)
@@ -138,7 +136,6 @@ def meeting_PillBot_user(name_of_user,pills_data):
     rospy.Subscriber("mood",String,callback2)
     mood_obj = rospy.wait_for_message("mood", String, timeout=20)
     mood = mood_obj.data
-    #mood = "happy"
     time.sleep(2)
     speak("You look " + mood + " today!")
     print("You look " + mood + " today!")
@@ -190,7 +187,6 @@ def callback(name_data):
         interpreter = Interpreter.load(model_directory, RasaNLUConfig("/home/human/PillBot/ros-independent/speech/rasa_nlu/sample_configs/config_spacy.json"))
         pills_data = get_pill_data(name_data.data)
         rate = rospy.Rate(10)
-        pub = rospy.Publisher('what_user_said', String, queue_size=10)
         meeting_PillBot_user(name_data.data,pills_data)
 
         time.sleep(1)
@@ -201,8 +197,7 @@ def callback(name_data):
         pub3.publish("end")
         expected_response = False
         wants_to_converse = False
-        data = recordAudio(calibrated)
-        calibrated = True
+        data = recordAudio(calibrated) #this is where it gets stuck
         time.sleep(1)
         while(not expected_response):
             if(data == "yes"):
@@ -213,16 +208,13 @@ def callback(name_data):
                 wants_to_converse = False
             else:
                 time.sleep(3)
-                #speak("Could you repeat that?")
+                speak("Could you repeat that?")
                 data = recordAudio(calibrated)
                 continue
         if(wants_to_converse):
-            while not rospy.is_shutdown():
+            while 1:
                 data = recordAudio(calibrated)
-                rospy.loginfo(data)
-                pub.publish(data)
-                rate.sleep()
-                jarvis(data,interpreter)
+                end_method = jarvis(data,interpreter)
                 if end_method == 'goodbye':
                     break
         pub3.publish("end")
