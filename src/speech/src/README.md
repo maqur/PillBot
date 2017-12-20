@@ -12,6 +12,7 @@ The list of dependencies includes:
 - pip
 - pyAudio
 - Speech Recognition Library for python
+- Google API Library for python
 - gTTS
 - mpg321
 - RASA NLU for the Chatbot AI
@@ -33,6 +34,10 @@ for Linux:
 ### Speech Recognition Library for python
 
 This is simple after you have pip. The command is `sudo pip install SpeechRecognition` as spotted on [this website](https://pythonprogramminglanguage.com/speech-recognition/)
+
+### Google API Library for python
+
+`sudo pip install google-api-python-client`
 
 ### gTTS
 
