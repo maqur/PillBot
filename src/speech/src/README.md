@@ -22,17 +22,17 @@ The list of dependencies includes:
 
 ### pip
 
-Since python comes with OS X pip should be already installed, but on the off chance your python version turns up errors then use homebrew. The simple command would then be `$: brew install python` on terminal.
+Since python comes with OS X pip should be already installed, but on the off chance your python version turns up errors then use homebrew. The simple command would then be `$ brew install python` on terminal.
 
 ### pyAudio
 
-`sudo pip install pyaudio`
+`$ sudo pip install pyaudio`
 
 for Linux:
 
-- `sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0`
-- `sudo apt-get install ffmpeg libav-tools`
-- `sudo pip install pyaudio`
+- `$ sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0`
+- `$ sudo apt-get install ffmpeg libav-tools`
+- `$ sudo pip install pyaudio`
 
 ### Speech Recognition Library for python
 
@@ -40,26 +40,26 @@ This is simple after you have pip. The command is `sudo pip install SpeechRecogn
 
 ### Google API Library for python
 
-`sudo pip install google-api-python-client`
+`$ sudo pip install google-api-python-client`
 
 ### Yahoo Weather API
 
-`sudo pip install weather-api`
+`$ sudo pip install weather-api`
 
 ### gTTS
 
-`sudo pip install gTTS`
+`$ sudo pip install gTTS`
 
 ### mpg321 
 
 for MAC OS X:
 
-- `brew install mpg321`
+- `$ brew install mpg321`
 
 for Ubuntu: 
 
-- `sudo apt-get update`
-- `sudo apt-get install mpg321`
+- `$ sudo apt-get update`
+- `$ sudo apt-get install mpg321`
 
 ### RASA NLU
 
@@ -67,7 +67,7 @@ For rasa nlu there are two counter-intuitive things to do and a couple of extra 
 
 - First pip install rasa: `$ sudo pip install rasa_nlu`
 - Then clone RASA NLU into the speech folder directory so you should have `YOUR_PATH/speech/rasa_nlu` (cloning can be done on the website: https://github.com/RasaHQ/rasa_nlu) (this is due to the way the code calls the training model) 
-- These are the extraneous dependencies to install also detailed in the RASA documentation: `$ sudo pip install -U spacy` and then `$: python -m spacy download en` followed by the final dependency `$ sudo pip install -U scikit-learn scipy sklearn-crfsuite`
+- These are the extraneous dependencies to install also detailed in the RASA documentation: `$ sudo pip install -U spacy` and then `$ python -m spacy download en` followed by the final dependency `$ sudo pip install -U scikit-learn scipy sklearn-crfsuite`
 
 That should cover your dependencies. If there are any other dependencies post an issue. 
 
@@ -81,7 +81,8 @@ Then type the following in a new terminal window:
 
 `$ rosrun speech jarvis.py`
 
-Please note that the program must be made executable in ROS by doing chmod +x jarvis.py (given that you are in the directory ~/PillBot/src/speech/src/). A `catkin_make` is necessary to compile the program once before you move on towards utilising it in ROS. 
+As with all programs in ROS it is important to source environmental variables before execution. So in the PillBot directory (top level) please type in `$ source devel/setup.bash`
+Please note that the program must be made executable in ROS by doing `$ chmod +x jarvis.py` (given that you are in the directory ~/PillBot/src/speech/src/). A `catkin_make` is necessary to compile the program once before you move on towards utilising it in ROS. 
 
 It should come up with a prompt that says "Hello PillBot user?" followed by "Please wait! Calibrating microphone." then a 2 second pause to adjust the microphone to ambient noise followed by "Calibration complete, ask me what you want" 
 
