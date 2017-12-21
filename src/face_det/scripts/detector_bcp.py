@@ -9,9 +9,11 @@ path='dataSet'
 path_name='names'
 
 
-faceDetect=cv2.CascadeClassifier('/home/mikheil/catkin_ws/src/face_det/scripts/haarcascade_frontalface_default.xml')
+#faceDetect=cv2.CascadeClassifier('/home/mikheil/catkin_ws/src/face_det/scripts/haarcascade_frontalface_default.xml')
+faceDetect=cv2.CascadeClassifier('src/face_det/scripts/haarcascade_frontalface_default.xml')
 
-with open("/home/mikheil/catkin_ws/src/face_det/scripts/names/names.json", 'r') as f:
+#with open("/home/mikheil/catkin_ws/src/face_det/scripts/names/names.json", 'r') as f:
+with open("src/face_det/scripts/names/names.json", 'r') as f:
     names_dict = json.load(f)
     
     
@@ -20,7 +22,8 @@ with open("/home/mikheil/catkin_ws/src/face_det/scripts/names/names.json", 'r') 
 cam=cv2.VideoCapture(0)
 
 rec=cv2.face.createLBPHFaceRecognizer()
-rec.load(os.path.abspath("/home/mikheil/catkin_ws/src/face_det/scripts/recognizer/trainingData.yml"))
+#rec.load(os.path.abspath("/home/mikheil/catkin_ws/src/face_det/scripts/recognizer/trainingData.yml"))
+rec.load(os.path.abspath("src/face_det/scripts/recognizer/trainingData.yml"))
 id_var=0
 font=cv2.FONT_HERSHEY_COMPLEX_SMALL
 while(True):

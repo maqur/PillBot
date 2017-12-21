@@ -24,7 +24,8 @@ def callback(face_stream):
     else:
         fisher_face = cv2.face.createFisherFaceRecognizer()
 
-    fisher_face.load('/home/human/PillBot/src/facemoji/src/models/emotion_detection_model.xml')
+    # fisher_face.load('/home/human/PillBot/src/facemoji/src/models/emotion_detection_model.xml')
+    fisher_face.load('src/facemoji/src/models/emotion_detection_model.xml')
 
     # use learnt model
     #window_name = 'WEBCAM (press ESC to exit)'
@@ -40,7 +41,8 @@ def _load_emoticons(emotions):
     :return: Array of emotions graphics.
     """
 
-    return [nparray_as_image(cv2.imread('/home/human/PillBot/src/facemoji/src/graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
+    # return [nparray_as_image(cv2.imread('/home/human/PillBot/src/facemoji/src/graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
+    return [nparray_as_image(cv2.imread('src/facemoji/src/graphics/%s.png' % emotion, -1), mode=None) for emotion in emotions]
 
 def show_webcam_and_run(detected, model, update_time=10):
     """

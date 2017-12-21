@@ -30,5 +30,8 @@
     <node   pkg="facemoji" name="webcam" type="webcam.py" output="screen"/>
     <node   pkg="speech" name="jarvis" type="jarvis.py" output="screen"/>
     <node   pkg="push_to_web" name="sub_data" type="sub_dispense.py" output="screen"/>
+    <node   pkg="push_to_web" name="sub_data" type="sub_data.py" output="screen"/>
     <node   pkg="navigation_goals" name="get_back" type="get_back" output="screen"/>
+
+    <include file="$(find pillbot_nav)/launch/move_base.launch">
 </launch>

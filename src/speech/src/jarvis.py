@@ -175,16 +175,19 @@ def callback(name_data):
 
         pub3 = rospy.Publisher('end',String,queue_size=10)
 
-        training_data = load_data('/home/human/PillBot/ros-independent/speech/rasa_nlu/data/examples/rasa/demo-rasa.json')
+        # training_data = load_data('/home/human/PillBot/ros-independent/speech/rasa_nlu/data/examples/rasa/demo-rasa.json')
+        training_data = load_data('ros-independent/speech/rasa_nlu/data/examples/rasa/demo-rasa.json')
         #Wherever you have git cloned rasa_nlu it will look for Spacy's configuration of the JSON file
-        trainer = Trainer(RasaNLUConfig("/home/human/PillBot/ros-independent/speech/rasa_nlu/sample_configs/config_spacy.json"))
+        # trainer = Trainer(RasaNLUConfig("/home/human/PillBot/ros-independent/speech/rasa_nlu/sample_configs/config_spacy.json"))
+        trainer = Trainer(RasaNLUConfig("ros-independent/speech/rasa_nlu/sample_configs/config_spacy.json"))
         #this just trains based on the training data
         trainer.train(training_data)
 
-        model_directory = trainer.persist('./projects/default/')  # Returns the directory the model is stored in
+        model_directory = trainer.persist('src/speech/projects/default/')  # Returns the directory the model is stored in
 
         # where `model_directory points to the folder the model is persisted in
-        interpreter = Interpreter.load(model_directory, RasaNLUConfig("/home/human/PillBot/ros-independent/speech/rasa_nlu/sample_configs/config_spacy.json"))
+        # interpreter = Interpreter.load(model_directory, RasaNLUConfig("/home/human/PillBot/ros-independent/speech/rasa_nlu/sample_configs/config_spacy.json"))
+        interpreter = Interpreter.load(model_directory, RasaNLUConfig("ros-independent/speech/rasa_nlu/sample_configs/config_spacy.json"))
         pills_data = get_pill_data(name_data.data)
         rate = rospy.Rate(10)
         meeting_PillBot_user(name_data.data,pills_data)
