@@ -84,7 +84,7 @@ Then type the following in a new terminal window:
 As with all programs in ROS it is important to source environmental variables before execution. So in the PillBot directory (top level) please type in `$ source devel/setup.bash`
 Please note that the program must be made executable in ROS by doing `$ chmod +x jarvis.py` (given that you are in the directory ~/PillBot/src/speech/src/). A `catkin_make` is necessary to compile the program once before you move on towards utilising it in ROS. 
 
-It should come up with a prompt that says "Hello PillBot user?" followed by "Please wait! Calibrating microphone." then a 2 second pause to adjust the microphone to ambient noise followed by "Calibration complete, ask me what you want" 
+It will start by saying "Hello [your name]" where [your name] is obtained from a rostopic /name. PillBot then says "You look [mood] today" with [mood] from a ROS topic called /mood. Then the program proceeds to tell the user the number and type of pills and asks for a yes/no confirmation on the pills described. If the user says yes then the program publishes to a ROS topic called /dispense\_pills\_now. It takes 40 seconds to dispense pills hence the time.sleep(40). Then the program asks "would you like to have a conversation" also requiring a yes or no response. If the user replies yes then the robot enters conversational mode which can only be exited by an intent called 'goodbye' that can be achieved if the user says "bye", "goodbye" or "see you later" though any range of intended goodbyes should work. After that the speech node terminates and the PillBot leaves the user. 
 
 Currently the database that includes all possible prompt responses is limited so the support will only work for prompts like:
 
