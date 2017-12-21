@@ -7,10 +7,10 @@
 
 ## Running
 
-- Soure the PillBot workspace `source devel/setup.bash`
+- Source the PillBot workspace `source devel/setup.bash`
 - Launch all the nodes `roslaunch brain pillbot.launch` 
 - Give the name and location of patient `rosrun navigation_goals simple_navigation_goals`
-- Where necessary go to https://humancrob.herokuapp.com to add a patient to the database with prescription
+- If necessary go to the [website](https://humancrob.herokuapp.com) to add a patient to the database with prescription
 
 ## Dependencies
 
