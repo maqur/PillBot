@@ -8,14 +8,15 @@
 ## Running
 
 - Soure the PillBot workspace `source devel/setup.bash`
-- Launch all the nodes `roslaunch brain pillbot.launch` (launch from the PillBot directory)
+- Launch all the nodes `roslaunch brain pillbot.launch` 
 - Give the name and location of patient `rosrun navigation_goals simple_navigation_goals`
 
 ## Dependencies
 
+- All the files must be launched from the cloned directory for correct paths
 - [ARIA](http://robots.mobilerobots.com/wiki/Aria)
-- [Navigation](src/pillbot_nav/README.md) dependencies
-- [Speech](src/speech/README.md) dependencies
+- [Navigation](src/pillbot_nav/README.md) 
+- [Speech](src/speech/README.md) 
 - [Facial Recognition](src/face_det/README.md)
 - [Mood Detection](src/facemoji/README.md)
 
